@@ -7,7 +7,7 @@ import TodoList from "./componets/TodoList";
 
 
 
-
+let nextId = 5;
 const App = () => {
   const [insertToggle, setInsertToggle] =useState(false)
   const [todos, setTodos] = useState([
@@ -37,13 +37,27 @@ const App = () => {
     setInsertToggle(prev => !prev)
   };
 
+
+  const onInsertTodo = text => {
+    if (text === "") {
+      return alert("할 일을 입력해주세요.");
+    } else {
+      const todo = {
+        id: nextId,
+        text,
+        checked: false
+      };
+      setTodos(todos => todos.concat(todo));
+      nextId++;
+    }
+  };
   return (
     <Template todoLength = {todos.length}>
       <TodoList todos={todos} />
-      <div className='add-todo-button' onClick={onInsertToggle}>
+      <div className='add-todo-button' onClick={onInsertToggle} >
         <MdAddCircle />
       </div>
-      {insertToggle && <TodoInsert onInsertToggle={onInsertToggle}/>}
+      {insertToggle && <TodoInsert onInsertToggle={onInsertToggle} onInsertTodo={onInsertTodo}/>}
     </Template>
   )
 }
